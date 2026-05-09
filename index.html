@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MI TURNO</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div>
+      <h1>MI TURNO</h1>
+      <p>Rafaela</p>
+    </div>
+    <button id="ownerBtn" class="ghost-btn">Soy dueño</button>
+  </header>
+
+  <section id="home" class="screen active">
+    <h2>¿Qué querés jugar hoy?</h2>
+
+    <button class="sport football" data-sport="futbol5">⚽ Fútbol 5</button>
+    <button class="sport padel" data-sport="padel">🎾 Pádel</button>
+  </section>
+
+  <section id="booking" class="screen">
+    <button class="back" data-go="home">← Volver</button>
+    <h2 id="bookingTitle"></h2>
+
+    <label>¿Cuándo querés jugar?</label>
+    <div id="quickDays" class="quick-days"></div>
+
+    <div class="calendar-row">
+      <button id="calendarToggle" class="ghost-btn">📅 Más fechas</button>
+    </div>
+
+    <input type="date" id="dateInput" class="hidden" />
+
+    <label>¿A qué hora?</label>
+    <div id="timeGrid" class="time-grid"></div>
+
+    <div id="resultsArea" class="hidden">
+      <h3>Canchas disponibles</h3>
+      <div id="resultsList"></div>
+    </div>
+  </section>
+
+  <section id="reserve" class="screen">
+    <button class="back" data-go="booking">← Cambiar</button>
+    <h2>Tu reserva</h2>
+
+    <div id="summaryCard" class="card"></div>
+
+    <form id="reserveForm">
+      <label>Nombre</label>
+      <input id="clientName" required />
+
+      <label>WhatsApp</label>
+      <input id="clientPhone" required />
+
+      <p class="hint">No pagás nada online. Abonás directamente en el complejo.</p>
+
+      <button class="primary">Solicitar reserva</button>
+    </form>
+  </section>
+
+  <section id="status" class="screen">
+    <div class="big-card">
+      <div id="statusEmoji" class="emoji">🟡</div>
+      <h2 id="statusTitle"></h2>
+      <p id="statusText"></p>
+      <button id="newSearchBtn" class="primary">Buscar otro horario</button>
+    </div>
+  </section>
+
+  <section id="ownerLogin" class="screen">
+    <button class="back" data-go="home">← Volver</button>
+    <h2>Ingreso dueño</h2>
+
+    <form id="ownerLoginForm">
+      <label>Usuario</label>
+      <input id="ownerUser" required />
+
+      <label>Contraseña</label>
+      <input id="ownerPass" type="password" required />
+
+      <button class="primary">Ingresar</button>
+    </form>
+
+    <p class="hint">Demo: usuario <b>dueño</b> / contraseña <b>1234</b></p>
+  </section>
+
+  <section id="ownerPanel" class="screen">
+    <button id="ownerLogout" class="back">← Salir</button>
+    <h2>Panel dueño</h2>
+
+    <div class="tabs">
+      <button class="tab active" data-owner-tab="pending">Pendientes</button>
+      <button class="tab" data-owner-tab="config">Administrar complejo</button>
+      <button class="tab" data-owner-tab="courts">Canchas</button>
+    </div>
+
+    <div id="ownerPending" class="owner-tab active">
+      <div id="pendingList"></div>
+    </div>
+
+    <div id="ownerConfig" class="owner-tab">
+      <form id="complexForm">
+        <label>Nombre del complejo</label>
+        <input id="complexName" required />
+
+        <label>Precio del turno</label>
+        <input id="complexPrice" type="number" required />
+
+        <label>WhatsApp del complejo</label>
+        <input id="complexPhone" required />
+
+        <label>Deportes disponibles</label>
+        <div class="checks">
+          <label class="check-item">
+            <input type="checkbox" id="sportFutbol" />
+            Fútbol 5
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="sportPadel" />
+            Pádel
+          </label>
+        </div>
+
+        <label>Días abiertos</label>
+        <div id="daysChecks" class="checks"></div>
+
+        <label>Hora de apertura</label>
+        <input id="openTime" type="time" required />
+
+        <label>Hora de cierre</label>
+        <input id="closeTime" type="time" required />
+
+        <button class="primary">Guardar cambios</button>
+      </form>
+    </div>
+
+    <div id="ownerCourts" class="owner-tab">
+      <form id="courtForm">
+        <label>Nombre de la cancha</label>
+        <input id="courtName" placeholder="Ej: Cancha 1" required />
+
+        <label>Tipo</label>
+        <select id="courtType">
+          <option value="Techada">Techada</option>
+          <option value="Descubierta">Descubierta</option>
+        </select>
+
+        <button class="primary">Agregar cancha</button>
+      </form>
+
+      <div id="courtsListOwner"></div>
+    </div>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
