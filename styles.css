@@ -544,3 +544,38 @@ select:focus {
   background: #00ff88;
   color: #03130b;
 }
+
+.owner-filters {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.filter-btn {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #111716;
+  color: #9ca3af;
+  border-radius: 999px;
+  padding: 10px 13px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.14);
+  color: #00ff88;
+}
+
+.empty-state {
+  background: #101413;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+  padding: 18px;
+  color: #9ca3af;
+  font-size: 14px;
+  line-height: 1.4;
+}
