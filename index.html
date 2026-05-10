@@ -35,7 +35,6 @@
         <div id="complexesContainer" class="complexes"></div>
       </section>
 
-      <!-- NUEVO: CANCHA CLIENTE -->
       <section class="block">
         <h3>Elegí la cancha</h3>
         <div id="courtsContainer" class="courts"></div>
@@ -106,7 +105,7 @@
       <div class="owner-head">
         <div>
           <h2 id="ownerPanelTitle">Panel del dueño</h2>
-          <p>Administrá canchas, horarios y reservas.</p>
+          <p id="ownerPanelSubtitle">Administrá canchas, horarios y reservas.</p>
         </div>
 
         <button id="logoutOwnerBtn" class="ghost-btn">
@@ -139,7 +138,7 @@
         </p>
       </section>
 
-      <!-- NUEVO: CONFIGURACIÓN DE CANCHAS -->
+      <!-- CONFIGURACIÓN DE CANCHAS -->
       <section class="booking-box owner-settings-box">
         <div class="section-title-row">
           <h3>Canchas del complejo</h3>
@@ -152,7 +151,7 @@
         <div id="ownerCourtsContainer" class="courts"></div>
 
         <p class="helper-text">
-          Cada cancha tiene sus propios turnos. Ejemplo: Cancha 1 a las 20:00 puede estar ocupada y Cancha 2 libre.
+          Cada cancha tiene sus propios turnos.
         </p>
       </section>
 
@@ -164,13 +163,26 @@
         <div id="ownerDaysContainer" class="days"></div>
       </section>
 
+      <!-- FILTROS DUEÑO -->
+      <section class="block">
+        <h3>Filtrar reservas</h3>
+
+        <div class="owner-filters">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="pending">Pendientes</button>
+          <button class="filter-btn" data-filter="confirmed">Confirmados</button>
+          <button class="filter-btn" data-filter="free">Libres</button>
+          <button class="filter-btn" data-filter="blocked">Bloqueados</button>
+        </div>
+      </section>
+
       <section class="block">
         <h3>Reservas</h3>
         <div id="ownerReservations" class="owner-list"></div>
       </section>
 
       <button id="clearBtn" class="danger-btn">
-        Borrar reservas de este complejo
+        Borrar reservas de esta cancha
       </button>
 
     </section>
