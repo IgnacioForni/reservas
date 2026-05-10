@@ -870,6 +870,9 @@ function renderOwnerReservations() {
                 <button class="reject-btn" onclick="rejectReservation(${reservation.id})">
                   Rechazar
                 </button>
+                <button class="whatsapp-btn" onclick="openClientWhatsapp(${reservation.id})">
+                  WhatsApp
+                </button>
               `
               : `
                 <button class="free-btn" onclick="freeHour(${reservation.id})">
@@ -877,6 +880,9 @@ function renderOwnerReservations() {
                 </button>
                 <button class="reject-btn" onclick="rejectReservation(${reservation.id})">
                   Eliminar
+                </button>
+                <button class="whatsapp-btn" onclick="openClientWhatsapp(${reservation.id})">
+                  WhatsApp
                 </button>
               `
           }
@@ -894,6 +900,44 @@ function renderOwnerReservations() {
       </div>
     `;
   }
+}
+
+function openClientWhatsapp(id) {
+  const reservations = getReservations();
+
+  const reservation = reservations.find((item) => {
+    return item.id === id;
+  });
+
+  if (!reservation || !reservation.phone) {
+    alert("Esta reserva no tiene WhatsApp cargado.");
+    return;
+  }
+
+  let cleanPhone = reservation.phone.replace(/\D/g, "");
+
+  if (cleanPhone.startsWith("0")) {
+    cleanPhone = cleanPhone.substring(1);
+  }
+
+  if (!cleanPhone.startsWith("54")) {
+    cleanPhone = `549${cleanPhone}`;
+  }
+
+  const message = `
+Hola ${reservation.name || ""}! Te escribimos de ${reservation.complexName}.
+
+Tu reserva:
+Cancha: ${reservation.court}
+Día: ${formatDateForMessage(reservation.date)}
+Horario: ${reservation.hour}
+
+¿Nos confirmás el turno?
+`;
+
+  const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappUrl, "_blank");
 }
 
 function acceptReservation(id) {
