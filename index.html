@@ -3,164 +3,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MI TURNO</title>
+  <title>MI TURNO - Fútbol 5</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<div class="app">
 
-  <header class="topbar">
-    <div>
-      <h1>MI TURNO</h1>
-      <p>Rafaela</p>
-    </div>
-    <button id="ownerBtn" class="ghost-btn">Soy dueño</button>
-  </header>
+  <main class="app">
 
-  <section id="home" class="screen active">
-    <h2>¿Qué querés jugar hoy?</h2>
+    <header class="topbar">
+      <div>
+        <h1>MI TURNO</h1>
+        <p>Fútbol 5 · Rafaela</p>
+      </div>
 
-    <button class="sport football" data-sport="futbol5">⚽ Fútbol 5</button>
-    <button class="sport padel" data-sport="padel">🎾 Pádel</button>
-  </section>
+      <button id="ownerBtn" class="ghost-btn">
+        Dueño
+      </button>
+    </header>
 
-  <section id="booking" class="screen">
-    <button class="back" data-go="home">← Volver</button>
-    <h2 id="bookingTitle"></h2>
+    <!-- PANTALLA CLIENTE -->
+    <section id="clientScreen" class="screen active">
 
-    <label>¿Cuándo querés jugar?</label>
-    <div id="quickDays" class="quick-days"></div>
+      <div class="hero-card">
+        <span class="badge">⚽ Fútbol 5</span>
+        <h2>Reservá tu turno</h2>
+        <p>Elegí complejo, cancha, día, horario y dejá tus datos. El dueño confirma la reserva.</p>
+      </div>
 
-    <div class="calendar-row">
-      <button id="calendarToggle" class="ghost-btn">📅 Más fechas</button>
-    </div>
+      <section class="block">
+        <h3>Elegí el complejo</h3>
+        <div id="complexesContainer" class="complexes"></div>
+      </section>
 
-    <input type="date" id="dateInput" class="hidden" />
+      <!-- NUEVO: CANCHA CLIENTE -->
+      <section class="block">
+        <h3>Elegí la cancha</h3>
+        <div id="courtsContainer" class="courts"></div>
+      </section>
 
-    <label>¿A qué hora?</label>
-    <div id="timeGrid" class="time-grid"></div>
+      <section class="block">
+        <h3>Elegí el día</h3>
+        <div id="daysContainer" class="days"></div>
+      </section>
 
-    <div id="resultsArea" class="hidden">
-      <h3>Canchas disponibles</h3>
-      <div id="resultsList"></div>
-    </div>
-  </section>
+      <section class="block">
+        <h3>Elegí el horario</h3>
+        <div id="hoursContainer" class="hours"></div>
+      </section>
 
-  <section id="reserve" class="screen">
-    <button class="back" data-go="booking">← Cambiar</button>
-    <h2>Tu reserva</h2>
+      <section id="bookingBox" class="booking-box hidden">
+        <h3>Datos de la reserva</h3>
 
-    <div id="summaryCard" class="card"></div>
+        <label>
+          Nombre
+          <input id="nameInput" type="text" placeholder="Ej: Juan Pérez" />
+        </label>
 
-    <form id="reserveForm">
-      <label>Nombre</label>
-      <input id="clientName" required />
+        <label>
+          WhatsApp
+          <input id="phoneInput" type="tel" placeholder="Ej: 3492 123456" />
+        </label>
 
-      <label>WhatsApp</label>
-      <input id="clientPhone" required />
+        <button id="requestBtn" class="primary-btn">
+          Solicitar reserva
+        </button>
+      </section>
 
-      <p class="hint">No pagás nada online. Abonás directamente en el complejo.</p>
+    </section>
 
-      <button class="primary">Solicitar reserva</button>
-    </form>
-  </section>
+    <!-- LOGIN DUEÑO -->
+    <section id="ownerLoginScreen" class="screen">
 
-  <section id="status" class="screen">
-    <div class="big-card">
-      <div id="statusEmoji" class="emoji">🟡</div>
-      <h2 id="statusTitle"></h2>
-      <p id="statusText"></p>
-      <button id="newSearchBtn" class="primary">Buscar otro horario</button>
-    </div>
-  </section>
+      <div class="hero-card">
+        <span class="badge">🔐 Panel dueño</span>
+        <h2>Ingresá a tu complejo</h2>
+        <p>Cada dueño administra solamente las reservas de su complejo.</p>
+      </div>
 
-  <section id="ownerLogin" class="screen">
-    <button class="back" data-go="home">← Volver</button>
-    <h2>Ingreso dueño</h2>
+      <section class="booking-box">
+        <h3>Acceso del dueño</h3>
 
-    <form id="ownerLoginForm">
-      <label>Usuario</label>
-      <input id="ownerUser" required />
+        <label>
+          Complejo
+          <select id="ownerComplexSelect"></select>
+        </label>
 
-      <label>Contraseña</label>
-      <input id="ownerPass" type="password" required />
+        <label>
+          Clave de dueño
+          <input id="ownerPinInput" type="password" placeholder="Ej: 1111" />
+        </label>
 
-      <button class="primary">Ingresar</button>
-    </form>
+        <button id="ownerLoginBtn" class="primary-btn">
+          Entrar al panel
+        </button>
+      </section>
 
-    <p class="hint">Demo: usuario <b>dueño</b> / contraseña <b>1234</b></p>
-  </section>
+    </section>
 
-  <section id="ownerPanel" class="screen">
-    <button id="ownerLogout" class="back">← Salir</button>
-    <h2>Panel dueño</h2>
+    <!-- PANTALLA DUEÑO -->
+    <section id="ownerScreen" class="screen">
 
-    <div class="tabs">
-      <button class="tab active" data-owner-tab="pending">Pendientes</button>
-      <button class="tab" data-owner-tab="config">Administrar complejo</button>
-      <button class="tab" data-owner-tab="courts">Canchas</button>
-    </div>
+      <div class="owner-head">
+        <div>
+          <h2 id="ownerPanelTitle">Panel del dueño</h2>
+          <p>Administrá canchas, horarios y reservas.</p>
+        </div>
 
-    <div id="ownerPending" class="owner-tab active">
-      <div id="pendingList"></div>
-    </div>
+        <button id="logoutOwnerBtn" class="ghost-btn">
+          Salir
+        </button>
+      </div>
 
-    <div id="ownerConfig" class="owner-tab">
-      <form id="complexForm">
-        <label>Nombre del complejo</label>
-        <input id="complexName" required />
+      <!-- CONFIGURACIÓN DE HORARIOS -->
+      <section class="booking-box owner-settings-box">
+        <h3>Horarios del complejo</h3>
 
-        <label>Precio del turno</label>
-        <input id="complexPrice" type="number" required />
-
-        <label>WhatsApp del complejo</label>
-        <input id="complexPhone" required />
-
-        <label>Deportes disponibles</label>
-        <div class="checks">
-          <label class="check-item">
-            <input type="checkbox" id="sportFutbol" />
-            Fútbol 5
+        <div class="time-settings">
+          <label>
+            Apertura
+            <select id="openTimeSelect"></select>
           </label>
-          <label class="check-item">
-            <input type="checkbox" id="sportPadel" />
-            Pádel
+
+          <label>
+            Cierre
+            <select id="closeTimeSelect"></select>
           </label>
         </div>
 
-        <label>Días abiertos</label>
-        <div id="daysChecks" class="checks"></div>
+        <button id="saveHoursBtn" class="primary-btn">
+          Guardar horarios
+        </button>
 
-        <label>Hora de apertura</label>
-        <input id="openTime" type="time" required />
+        <p class="helper-text">
+          Ejemplo: si cerrás a las 00:00, el último turno disponible será 23:00.
+        </p>
+      </section>
 
-        <label>Hora de cierre</label>
-        <input id="closeTime" type="time" required />
+      <!-- NUEVO: CONFIGURACIÓN DE CANCHAS -->
+      <section class="booking-box owner-settings-box">
+        <div class="section-title-row">
+          <h3>Canchas del complejo</h3>
 
-        <button class="primary">Guardar cambios</button>
-      </form>
-    </div>
+          <button id="addCourtBtn" class="small-btn">
+            + Agregar cancha
+          </button>
+        </div>
 
-    <div id="ownerCourts" class="owner-tab">
-      <form id="courtForm">
-        <label>Nombre de la cancha</label>
-        <input id="courtName" placeholder="Ej: Cancha 1" required />
+        <div id="ownerCourtsContainer" class="courts"></div>
 
-        <label>Tipo</label>
-        <select id="courtType">
-          <option value="Techada">Techada</option>
-          <option value="Descubierta">Descubierta</option>
-        </select>
+        <p class="helper-text">
+          Cada cancha tiene sus propios turnos. Ejemplo: Cancha 1 a las 20:00 puede estar ocupada y Cancha 2 libre.
+        </p>
+      </section>
 
-        <button class="primary">Agregar cancha</button>
-      </form>
+      <!-- RESUMEN -->
+      <section id="ownerSummary" class="summary-grid"></section>
 
-      <div id="courtsListOwner"></div>
-    </div>
-  </section>
+      <section class="block">
+        <h3>Día a revisar</h3>
+        <div id="ownerDaysContainer" class="days"></div>
+      </section>
 
-</div>
+      <section class="block">
+        <h3>Reservas</h3>
+        <div id="ownerReservations" class="owner-list"></div>
+      </section>
 
-<script src="script.js"></script>
+      <button id="clearBtn" class="danger-btn">
+        Borrar reservas de este complejo
+      </button>
+
+    </section>
+
+    <!-- NAVEGACIÓN INFERIOR -->
+    <nav class="bottom-nav">
+      <button id="navClient" class="nav-btn active">
+        Reservar
+      </button>
+
+      <button id="navOwner" class="nav-btn">
+        Dueño
+      </button>
+    </nav>
+
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
