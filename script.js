@@ -24,6 +24,7 @@ const ownerPinInput = document.getElementById("ownerPinInput");
 const ownerLoginBtn = document.getElementById("ownerLoginBtn");
 
 const ownerPanelTitle = document.getElementById("ownerPanelTitle");
+const ownerPanelSubtitle = document.getElementById("ownerPanelSubtitle");
 const ownerSummary = document.getElementById("ownerSummary");
 
 const openTimeSelect = document.getElementById("openTimeSelect");
@@ -103,6 +104,7 @@ let selectedHour = "";
 let ownerLoggedComplexId = null;
 let ownerSelectedCourt = "Cancha 1";
 let ownerSelectedDate = "";
+let ownerCurrentFilter = "all";
 
 function numberToTime(hour) {
   if (hour === 24) return "00:00";
@@ -258,6 +260,24 @@ function getReservationByComplexCourtDateHour(complexId, court, date, hour) {
   });
 }
 
+function getSlotStatus(complexId, court, date, hour) {
+  const reservation = getReservationByComplexCourtDateHour(
+    complexId,
+    court,
+    date,
+    hour
+  );
+
+  if (!reservation) return "free";
+
+  return reservation.status;
+}
+
+function shouldShowSlot(status) {
+  if (ownerCurrentFilter === "all") return true;
+  return ownerCurrentFilter === status;
+}
+
 function renderClientComplexes() {
   const container = document.getElementById("complexesContainer");
   container.innerHTML = "";
@@ -348,10 +368,13 @@ function renderOwnerCourts() {
 
     button.addEventListener("click", () => {
       ownerSelectedCourt = court;
+      ownerCurrentFilter = "all";
 
       renderOwnerCourts();
+      renderOwnerFilters();
       renderOwnerReservations();
       renderOwnerSummary();
+      renderOwnerHeader();
     });
 
     ownerCourtsContainer.appendChild(button);
@@ -425,6 +448,7 @@ function handleAddCourt() {
   const newCourt = addCourtForComplex(ownerLoggedComplexId);
 
   ownerSelectedCourt = newCourt;
+  ownerCurrentFilter = "all";
 
   if (selectedComplexId === ownerLoggedComplexId) {
     selectedCourt = newCourt;
@@ -433,9 +457,11 @@ function handleAddCourt() {
   renderClientComplexes();
   renderClientCourts();
   renderOwnerCourts();
+  renderOwnerFilters();
   renderHours();
   renderOwnerReservations();
   renderOwnerSummary();
+  renderOwnerHeader();
 
   alert(`${newCourt} agregada correctamente.`);
 }
@@ -499,10 +525,13 @@ function renderOwnerDays() {
 
     button.addEventListener("click", () => {
       ownerSelectedDate = day.value;
+      ownerCurrentFilter = "all";
 
       renderOwnerDays();
+      renderOwnerFilters();
       renderOwnerReservations();
       renderOwnerSummary();
+      renderOwnerHeader();
     });
 
     ownerDaysContainer.appendChild(button);
@@ -676,6 +705,7 @@ function loginOwner() {
 
   ownerLoggedComplexId = selectedId;
   ownerSelectedCourt = getCourtsForComplex(selectedId)[0];
+  ownerCurrentFilter = "all";
   ownerPinInput.value = "";
 
   showOwnerPanel();
@@ -684,6 +714,7 @@ function loginOwner() {
 function logoutOwner() {
   ownerLoggedComplexId = null;
   ownerSelectedCourt = "Cancha 1";
+  ownerCurrentFilter = "all";
   showOwnerLoginScreen();
 }
 
@@ -692,6 +723,15 @@ function getStatusText(status) {
   if (status === "confirmed") return "Confirmada";
   if (status === "blocked") return "Bloqueado";
   return "Libre";
+}
+
+function renderOwnerHeader() {
+  if (!ownerLoggedComplexId) return;
+
+  const selectedComplex = getComplexById(ownerLoggedComplexId);
+
+  ownerPanelTitle.textContent = selectedComplex.name;
+  ownerPanelSubtitle.textContent = `${ownerSelectedCourt} · ${formatDateForMessage(ownerSelectedDate)}`;
 }
 
 function renderOwnerSummary() {
@@ -705,21 +745,17 @@ function renderOwnerSummary() {
   const hours = getHoursForComplex(ownerLoggedComplexId);
 
   hours.forEach((hour) => {
-    const reservation = getReservationByComplexCourtDateHour(
+    const status = getSlotStatus(
       ownerLoggedComplexId,
       ownerSelectedCourt,
       ownerSelectedDate,
       hour
     );
 
-    if (!reservation) {
-      free++;
-      return;
-    }
-
-    if (reservation.status === "pending") pending++;
-    if (reservation.status === "confirmed") confirmed++;
-    if (reservation.status === "blocked") blocked++;
+    if (status === "free") free++;
+    if (status === "pending") pending++;
+    if (status === "confirmed") confirmed++;
+    if (status === "blocked") blocked++;
   });
 
   ownerSummary.innerHTML = `
@@ -745,6 +781,20 @@ function renderOwnerSummary() {
   `;
 }
 
+function renderOwnerFilters() {
+  const filterButtons = document.querySelectorAll(".filter-btn");
+
+  filterButtons.forEach((button) => {
+    const filter = button.dataset.filter;
+
+    if (filter === ownerCurrentFilter) {
+      button.classList.add("active");
+    } else {
+      button.classList.remove("active");
+    }
+  });
+}
+
 function renderOwnerReservations() {
   ownerReservations.innerHTML = "";
 
@@ -753,7 +803,7 @@ function renderOwnerReservations() {
   const selectedComplex = getComplexById(ownerLoggedComplexId);
   const hours = getHoursForComplex(ownerLoggedComplexId);
 
-  ownerPanelTitle.textContent = selectedComplex.name;
+  let visibleCount = 0;
 
   hours.forEach((hour) => {
     const reservation = getReservationByComplexCourtDateHour(
@@ -762,6 +812,14 @@ function renderOwnerReservations() {
       ownerSelectedDate,
       hour
     );
+
+    const status = reservation ? reservation.status : "free";
+
+    if (!shouldShowSlot(status)) {
+      return;
+    }
+
+    visibleCount++;
 
     const card = document.createElement("div");
     card.className = "owner-card";
@@ -828,6 +886,14 @@ function renderOwnerReservations() {
 
     ownerReservations.appendChild(card);
   });
+
+  if (visibleCount === 0) {
+    ownerReservations.innerHTML = `
+      <div class="empty-state">
+        No hay turnos para mostrar con este filtro.
+      </div>
+    `;
+  }
 }
 
 function acceptReservation(id) {
@@ -992,6 +1058,8 @@ function showOwnerPanel() {
   renderOwnerHourSettings();
   renderOwnerCourts();
   renderOwnerDays();
+  renderOwnerFilters();
+  renderOwnerHeader();
   renderOwnerReservations();
   renderOwnerSummary();
 }
@@ -1017,6 +1085,15 @@ saveHoursBtn.addEventListener("click", saveOwnerHours);
 addCourtBtn.addEventListener("click", handleAddCourt);
 
 clearBtn.addEventListener("click", clearOwnerReservations);
+
+document.querySelectorAll(".filter-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    ownerCurrentFilter = button.dataset.filter;
+
+    renderOwnerFilters();
+    renderOwnerReservations();
+  });
+});
 
 getCourtsForComplex(selectedComplexId);
 
