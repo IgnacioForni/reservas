@@ -579,3 +579,10 @@ select:focus {
   font-size: 14px;
   line-height: 1.4;
 }
+
+.whatsapp-btn {
+  grid-column: span 2;
+  background: rgba(0, 255, 136, 0.14);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.35) !important;
+}
