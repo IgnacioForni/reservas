@@ -104,7 +104,7 @@ body {
 .complexes {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .complex-btn {
@@ -133,6 +133,109 @@ body {
 .complex-btn.active {
   border-color: #00ff88;
   background: rgba(0, 255, 136, 0.14);
+}
+
+/* NUEVAS CARDS DE DISPONIBILIDAD */
+
+.available-complex-card {
+  background: #101413;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+.available-complex-card.active {
+  border-color: rgba(0, 255, 136, 0.55);
+  background:
+    linear-gradient(135deg, rgba(0, 255, 136, 0.11), rgba(255, 255, 255, 0.03)),
+    #101413;
+}
+
+.available-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.available-top h4 {
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.available-top p {
+  color: #9ca3af;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.available-badge {
+  background: rgba(0, 255, 136, 0.14);
+  color: #00ff88;
+  border-radius: 999px;
+  padding: 6px 9px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.available-courts {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.available-courts-title {
+  color: #d1d5db;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.available-court-options {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.available-court-btn {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #111716;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.available-court-btn.active {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.16);
+  color: #00ff88;
+}
+
+.reserve-card-btn {
+  margin-top: 4px;
+}
+
+.reserve-card-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.booking-summary {
+  background: rgba(0, 255, 136, 0.10);
+  border: 1px solid rgba(0, 255, 136, 0.22);
+  color: #d1fae5;
+  border-radius: 16px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 16px;
 }
 
 /* CANCHAS */
@@ -511,39 +614,39 @@ select:focus {
   color: #ffffff;
 }
 
-/* NAVEGACIÓN INFERIOR */
-
-.bottom-nav {
-  position: fixed;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 448px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  background: rgba(5, 8, 7, 0.88);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  padding: 10px;
-  border-radius: 24px;
+.whatsapp-btn {
+  grid-column: span 2;
+  background: rgba(0, 255, 136, 0.14);
+  color: #00ff88;
+  border: 1px solid rgba(0, 255, 136, 0.35) !important;
 }
 
-.nav-btn {
-  border: none;
-  border-radius: 17px;
-  padding: 13px;
-  background: transparent;
-  color: #9ca3af;
-  font-weight: 800;
+.owner-court-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.delete-court-btn {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.14);
+  color: #ff6b6b;
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  font-weight: 900;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
-.nav-btn.active {
-  background: #00ff88;
-  color: #03130b;
+.delete-court-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
+
+/* FILTROS */
 
 .owner-filters {
   display: flex;
@@ -580,9 +683,36 @@ select:focus {
   line-height: 1.4;
 }
 
-.whatsapp-btn {
-  grid-column: span 2;
-  background: rgba(0, 255, 136, 0.14);
-  color: #00ff88;
-  border: 1px solid rgba(0, 255, 136, 0.35) !important;
+/* NAVEGACIÓN INFERIOR */
+
+.bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 448px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: rgba(5, 8, 7, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 10px;
+  border-radius: 24px;
+}
+
+.nav-btn {
+  border: none;
+  border-radius: 17px;
+  padding: 13px;
+  background: transparent;
+  color: #9ca3af;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.nav-btn.active {
+  background: #00ff88;
+  color: #03130b;
 }
