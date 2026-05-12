@@ -26,19 +26,9 @@
 
       <div class="hero-card">
         <span class="badge">⚽ Fútbol 5</span>
-        <h2>Reservá tu turno</h2>
-        <p>Elegí complejo, cancha, día, horario y dejá tus datos. El dueño confirma la reserva.</p>
+        <h2>Buscá tu turno</h2>
+        <p>Elegí día y horario. Te mostramos los complejos que tienen cancha disponible.</p>
       </div>
-
-      <section class="block">
-        <h3>Elegí el complejo</h3>
-        <div id="complexesContainer" class="complexes"></div>
-      </section>
-
-      <section class="block">
-        <h3>Elegí la cancha</h3>
-        <div id="courtsContainer" class="courts"></div>
-      </section>
 
       <section class="block">
         <h3>Elegí el día</h3>
@@ -50,8 +40,15 @@
         <div id="hoursContainer" class="hours"></div>
       </section>
 
+      <section class="block">
+        <h3>Complejos disponibles</h3>
+        <div id="complexesContainer" class="complexes"></div>
+      </section>
+
       <section id="bookingBox" class="booking-box hidden">
         <h3>Datos de la reserva</h3>
+
+        <p id="bookingSummary" class="booking-summary"></p>
 
         <label>
           Nombre
